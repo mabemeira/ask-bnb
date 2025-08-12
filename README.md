@@ -2,19 +2,19 @@
 Conversational Airbnb data search powered by AWS
 
 
-# Agent Architecture (Bedrock + Athena)
+## Agent Architecture (Bedrock + Athena)
 
 This document describes how the **ask-bnb** agent transforms natural language questions into **SELECT** queries in **Amazon Athena**, returning tabular data from the `project_inside_airbnb.curated_listings` table.
 
 
-## Overview:
+### Overview:
 - **Amazon Bedrock Agent (Claude 3.5 Sonnet)**: interprets intent, decides to trigger Action Group functions, and maintains context.
 - **Action Group**: defined with In-line OpenAPI schema (contract). Routes calls to a Lambda function.
 - **AWS Lambda (`ask-bnb-sql-exec`)**: runs SELECT in Athena (DB project_inside_airbnb, WG ask-bnb-wg) and returns { columns, rows, bytes_scanned }.
 - **Athena + Glue + S3**: Athena queries data in S3 using Glue metadata; results are stored in the query results bucket.
 
 
-## Component Diagram (Mermaid)
+### Component Diagram (Mermaid)
 
 ```mermaid
 flowchart LR
@@ -49,7 +49,7 @@ flowchart LR
 
 ---
 
-## Sequence Diagram (Mermaid)
+### Sequence Diagram (Mermaid)
 
 ```mermaid
 sequenceDiagram
@@ -79,7 +79,7 @@ sequenceDiagram
 
 ---
 
-## Key Contracts
+### Key Contracts
 
 **OpenAPI:**
 
@@ -151,7 +151,7 @@ paths:
 }
 ```
 
-## Responsibilities & Guardrails
+### Responsibilities & Guardrails
 
 **Agent (Claude):**
 - Applies system prompt rules: `SELECT` only, `WHERE city = 'madrid'` when relevant, limit columns/rows, handle nulls, use `has_*` for amenities, etc.
