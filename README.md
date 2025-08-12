@@ -14,7 +14,7 @@ This document describes how the **ask-bnb** agent transforms natural language qu
 - **Athena + Glue + S3**: Athena queries data in S3 using Glue metadata; results are stored in the query results bucket.
 
 
-### Component Diagram (Mermaid)
+### Component Diagram
 
 ```mermaid
 flowchart LR
@@ -49,7 +49,7 @@ flowchart LR
 
 ---
 
-### Sequence Diagram (Mermaid)
+### Sequence Diagram
 
 ```mermaid
 sequenceDiagram
