@@ -62,19 +62,19 @@ sequenceDiagram
     participant S3 as Amazon S3
     participant GC as Glue Catalog
 
-    U->>AGT: NL Question (e.g., “Top 5 highest-rated apartments…”) 
-    AGT->>AG: Decides to invoke /run-sql with payload { sql, defaults }
-    AG-->>L: Invokes Lambda (event with apiPath=/run-sql, operation=runSql)
+    U->>AGT: NL Question about top rated apartments 
+    AGT->>AG: Decides to invoke /run-sql with payload
+    AG-->>L: Invokes Lambda with run-sql operation
     L->>L: Validates SELECT only and applies limits/timeouts
-    L->>ATH: StartQueryExecution (DB/WG)
-    ATH->>GC: Resolve metadata (curated table)
+    L->>ATH: StartQueryExecution with DB/WG
+    ATH->>GC: Resolve metadata for curated table
     ATH->>S3: Write query results
-    L->>ATH: Poll until completion (max_wait_seconds)
+    L->>ATH: Poll until completion with timeout
     ATH-->>L: Execution complete
     L->>S3: Read tabular results
-    L-->>AG: { columns, rows, bytes_scanned }
+    L-->>AG: Return columns, rows, bytes_scanned
     AG-->>AGT: Pass resultset
-    AGT-->>U: Response (data first; SQL and 1-line explanation)
+    AGT-->>U: Response with data first then SQL explanation
 ```
 
 ---
