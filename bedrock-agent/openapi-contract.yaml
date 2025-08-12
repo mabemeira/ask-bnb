@@ -1,0 +1,49 @@
+openapi: 3.0.1
+info:
+  title: ask-bnb-sql-exec
+  version: '1.0'
+paths:
+  /run-sql:
+    post:
+      operationId: runSql
+      description: Executa um SELECT no Amazon Athena e retorna linhas tabulares.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sql]
+              properties:
+                sql:
+                  type: string
+                  description: "Consulta SQL (apenas SELECT). O agente deve limitar as colunas e incluir WHERE city='madrid' quando aplicável."
+                database:
+                  type: string
+                  default: project_inside_airbnb
+                workgroup:
+                  type: string
+                  default: ask-bnb-wg
+                max_wait_seconds:
+                  type: integer
+                  default: 25
+      responses:
+        '200':
+          description: Resultset
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [columns, rows, bytes_scanned]
+                properties:
+                  columns:
+                    type: array
+                    items: { type: string }
+                  rows:
+                    type: array
+                    items:
+                      type: array
+                      items: { type: string }
+                  bytes_scanned:
+                    type: integer
+      
