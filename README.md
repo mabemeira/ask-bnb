@@ -65,15 +65,15 @@ sequenceDiagram
     U->>AGT: NL Question (e.g., “Top 5 highest-rated apartments…”) 
     AGT->>AG: Decides to invoke /run-sql with payload { sql, defaults }
     AG-->>L: Invokes Lambda (event with apiPath=/run-sql, operation=runSql)
-    L->>L: Validates SELECT only; applies limits/timeouts
+    L->>L: Validates SELECT only and applies limits/timeouts
     L->>ATH: StartQueryExecution (DB/WG)
     ATH->>GC: Resolve metadata (curated table)
-    ATH->>S3: Writes query results
+    ATH->>S3: Write query results
     L->>ATH: Poll until completion (max_wait_seconds)
     ATH-->>L: Execution complete
-    L->>S3: Reads tabular results
+    L->>S3: Read tabular results
     L-->>AG: { columns, rows, bytes_scanned }
-    AG-->>AGT: Passes resultset
+    AG-->>AGT: Pass resultset
     AGT-->>U: Response (data first; SQL + 1-line explanation)
 ```
 
