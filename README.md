@@ -74,7 +74,7 @@ sequenceDiagram
     L->>S3: Read tabular results
     L-->>AG: { columns, rows, bytes_scanned }
     AG-->>AGT: Pass resultset
-    AGT-->>U: Response (data first; SQL + 1-line explanation)
+    AGT-->>U: Response (data first; SQL and 1-line explanation)
 ```
 
 ---
